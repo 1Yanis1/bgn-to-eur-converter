@@ -1,0 +1,48 @@
+import tkinter as tk
+
+def BGNtoEUR(bgn):
+    """Конвертира BGN в EUR по фиксиран курс."""
+    return round(bgn / 1.95583, 2)
+
+def convert(event=None):
+    """Взима стойността от полето за въвеждане, конвертира и я показва в EUR."""
+    try:
+        value = float(inputText.get())
+        result = BGNtoEUR(value)
+        outputText.config(state="normal")
+        outputText.delete(0, tk.END)
+        outputText.insert(0, str(result))
+        outputText.config(state="readonly")
+    except ValueError:
+        outputText.config(state="normal")
+        outputText.delete(0, tk.END)
+        outputText.insert(0, "Невалидно число")
+        outputText.config(state="readonly")
+
+# Настройки на прозореца
+window = tk.Tk()
+window.title("BGN to EUR Converter")
+window.geometry("400x120")
+window.resizable(width=False, height=False)
+
+# Поле за въвеждане на BGN
+inputLabel = tk.Label(text="BGN:")
+inputLabel.grid(row=0, column=0, padx=10, pady=10)
+inputText = tk.Entry()
+inputText.grid(row=0, column=1, padx=10, pady=10)
+
+# Бутон за конвертиране
+convertBtn = tk.Button(text="Convert", command=convert)
+convertBtn.grid(row=0, column=2, padx=10, pady=10)
+
+# Поле за изход EUR
+outputLabel = tk.Label(text="EUR:")
+outputLabel.grid(row=1, column=0, padx=10, pady=10)
+outputText = tk.Entry(state="readonly")
+outputText.grid(row=1, column=1, padx=10, pady=10)
+
+# Позволява натискане на Enter за конвертиране
+window.bind("<Return>", convert)
+
+# Стартира прозореца
+window.mainloop()
